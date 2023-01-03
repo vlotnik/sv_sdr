@@ -3,7 +3,8 @@
 //--------------------------------------------------------------------------------------------------------------------------------
 package pkg_sin_cos_generator;
 
-    const int LATENCY = 2;
+    localparam                          LATENCY = 2;
+
     const real PI = 3.1415926535897932384626433832795;
 
     function int f_sin(int phase, int max = 2**15 - 1, int phase_w = 12);
