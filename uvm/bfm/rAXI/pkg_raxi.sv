@@ -6,6 +6,16 @@ package pkg_raxi;
     `include "uvm_macros.svh"
     `include "common_macros.svh"
 
+    localparam                          RAXI_SEQC_MODE_RX = 0;
+    localparam                          RAXI_SEQC_MODE_TX = 1;
+
+    localparam                          RAXI_DRVR_MODE_RX = 0;
+    localparam                          RAXI_DRVR_MODE_TX = 1;
+
+    localparam                          RAXI_DEFAULT_DW = 8;
+    localparam                          RAXI_DEFAULT_UW = 8;
+    localparam                          RAXI_DEFAULT_IW = 8;
+
     `include "raxi_seqi.svh"
     typedef uvm_sequencer #(raxi_seqi) raxi_seqr;
 
@@ -18,8 +28,8 @@ package pkg_raxi;
 
     `include "raxi_scrb.svh"
 
-    `include "raxi_base_seqc_tx.svh"
-    `include "raxi_base_test.svh"
+    `include "raxi_seqc.svh"
+    `include "raxi_test.svh"
 
 //--------------------------------------------------------------------------------------------------------------------------------
 endpackage

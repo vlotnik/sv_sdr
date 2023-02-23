@@ -2,9 +2,9 @@
 // name : raxi_agnt
 //--------------------------------------------------------------------------------------------------------------------------------
 class raxi_agnt #(
-      DW = 8
-    , UW = 8
-    , IW = 8
+      DW = RAXI_DEFAULT_DW
+    , UW = RAXI_DEFAULT_UW
+    , IW = RAXI_DEFAULT_IW
 ) extends uvm_agent;
     `uvm_component_param_utils(raxi_agnt #(DW, UW, IW))
     `uvm_component_new
@@ -14,7 +14,7 @@ class raxi_agnt #(
     extern function void connect_phase(uvm_phase phase);
 
     // settings
-    bit driver_mode = RX_MODE;
+    bit driver_mode = RAXI_DRVR_MODE_RX;
     uvm_active_passive_enum driver_is_active = UVM_ACTIVE;
     uvm_active_passive_enum monitor_is_active = UVM_ACTIVE;
 
@@ -44,7 +44,6 @@ class raxi_agnt #(
         , .UW(UW)
         , .IW(IW)
     )                                   raxi_mont_h;
-
 //--------------------------------------------------------------------------------------------------------------------------------
 endclass
 
@@ -53,30 +52,30 @@ endclass
 //--------------------------------------------------------------------------------------------------------------------------------
 function void raxi_agnt::build_phase(uvm_phase phase);
     // driver is active
-    if (this.driver_is_active == UVM_ACTIVE) begin
+    if (driver_is_active == UVM_ACTIVE) begin
         `uvm_component_create(uvm_sequencer #(raxi_seqi), raxi_seqr_h)
         `uvm_component_create(raxi_drvr #(DW, UW, IW), raxi_drvr_h)
-        raxi_drvr_h.mode = this.driver_mode;
+        raxi_drvr_h.mode = driver_mode;
+        raxi_drvr_h.raxi_bfm_h = raxi_bfm_h;
     end
 
     // monitor is active
-    if (this.monitor_is_active == UVM_ACTIVE) begin
+    if (monitor_is_active == UVM_ACTIVE) begin
         `uvm_component_create(raxi_mont #(DW, UW, IW), raxi_mont_h)
         raxi_aprt_h = new("raxi_aprt_h", this);
+        raxi_mont_h.raxi_bfm_h = raxi_bfm_h;
     end
 //--------------------------------------------------------------------------------------------------------------------------------
 endfunction
 
 function void raxi_agnt::connect_phase(uvm_phase phase);
     // connect driver
-    if (this.driver_is_active == UVM_ACTIVE) begin
-        raxi_drvr_h.raxi_bfm_h = this.raxi_bfm_h;
+    if (driver_is_active == UVM_ACTIVE) begin
         raxi_drvr_h.seq_item_port.connect(raxi_seqr_h.seq_item_export);
     end
 
     // connect monitor
-    if (this.monitor_is_active == UVM_ACTIVE) begin
-        raxi_mont_h.raxi_bfm_h = this.raxi_bfm_h;
+    if (monitor_is_active == UVM_ACTIVE) begin
         raxi_mont_h.raxi_aprt_h.connect(raxi_aprt_h);
     end
 //--------------------------------------------------------------------------------------------------------------------------------

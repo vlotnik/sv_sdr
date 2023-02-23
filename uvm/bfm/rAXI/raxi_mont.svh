@@ -2,9 +2,9 @@
 // name : raxi_mont
 //--------------------------------------------------------------------------------------------------------------------------------
 class raxi_mont #(
-      DW = 8
-    , UW = 8
-    , IW = 8
+      DW = RAXI_DEFAULT_DW
+    , UW = RAXI_DEFAULT_UW
+    , IW = RAXI_DEFAULT_IW
 ) extends uvm_component;
     `uvm_component_param_utils(raxi_mont #(DW, UW, IW));
     `uvm_component_new

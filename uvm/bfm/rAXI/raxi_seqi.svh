@@ -17,8 +17,6 @@ class raxi_seqi extends uvm_sequence_item;
     bit data[];
     bit user[];
     bit id[];
-
-//--------------------------------------------------------------------------------------------------------------------------------
 endclass
 
 //--------------------------------------------------------------------------------------------------------------------------------
@@ -28,20 +26,16 @@ function string raxi_seqi::convert2string();
     string s;
 
     s = $sformatf("valid = %0d", valid);
-    s = {s, $sformatf(", first = %0d", first)};
-    s = {s, $sformatf(", last = %0d", last)};
-    s = {s, $sformatf(", keep = %0d", keep)};
-    s = {s, $sformatf(", ready = %0d", ready)};
+    s = {s, $sformatf("last = %0d", last)};
+    s = {s, $sformatf("ready = %0d", ready)};
     if (data.size > 0)
         s = {s, $sformatf("\ndata = %0p", data)};
     if (user.size > 0)
         s = {s, $sformatf("\nuser = %0p", user)};
     if (id.size > 0)
-        s = {s, $sformatf("\nid = %0p", id)};
+        s = {s, $sformatf("\nuser = %0p", id)};
 
     return s;
-
-//--------------------------------------------------------------------------------------------------------------------------------
 endfunction
 
 function bit raxi_seqi::do_compare(uvm_object rhs, uvm_comparer comparer);
@@ -52,10 +46,6 @@ function bit raxi_seqi::do_compare(uvm_object rhs, uvm_comparer comparer);
 
     $cast(RHS, rhs);
     same = same && (valid == RHS.valid);
-    same = same && (first == RHS.first);
-    same = same && (last == RHS.last);
-    same = same && (keep == RHS.keep);
-    same = same && (ready == RHS.ready);
     if (data.size > 0)
         same = same && (data == RHS.data);
     if (user.size > 0)
@@ -64,6 +54,4 @@ function bit raxi_seqi::do_compare(uvm_object rhs, uvm_comparer comparer);
         same = same && (id == RHS.id);
 
     return same;
-
-//--------------------------------------------------------------------------------------------------------------------------------
 endfunction
