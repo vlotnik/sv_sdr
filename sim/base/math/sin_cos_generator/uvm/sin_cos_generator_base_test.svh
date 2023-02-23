@@ -6,7 +6,7 @@ class sin_cos_generator_base_test #(
     , SINCOS_W
     , RAXI_DW_RX
     , RAXI_DW_TX
-) extends raxi_base_test #(
+) extends raxi_test #(
       .RAXI_DW_RX(RAXI_DW_RX)
     , .RAXI_DW_TX(RAXI_DW_TX)
 );
@@ -31,7 +31,7 @@ class sin_cos_generator_base_test #(
     )                                   seqc_rx;
 
     // TX sequence
-    raxi_base_seqc_tx                   seqc_tx;
+    raxi_seqc                           seqc_tx;
 
     // scoreboard
     sin_cos_generator_scrb #(
@@ -59,7 +59,7 @@ function void sin_cos_generator_base_test::build_phase(uvm_phase phase);
     `uvm_component_create(sin_cos_generator_base_seqc_rx #(PHASE_W), seqc_rx)
 
     // build TX sequence
-    `uvm_component_create(raxi_base_seqc_tx, seqc_tx)
+    `uvm_component_create(raxi_seqc, seqc_tx)
 
     // build scoreboard
     `uvm_component_create(sin_cos_generator_scrb #(PHASE_W, SINCOS_W), scrb_h);
